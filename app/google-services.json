@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "261571947069",
+    "project_id": "class-12th-ag-jet-notes",
+    "storage_bucket": "class-12th-ag-jet-notes.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261571947069:android:6fec503635a92d83fe9854",
+        "android_client_info": {
+          "package_name": "com.roni.class11th12thagricultutehandwrtitennotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261571947069-813n7ttb900fj0f2itjflebh5oeckqvi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7Jj6qPNef95b1uiwSeaYztkn5XfJW1Jw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261571947069-813n7ttb900fj0f2itjflebh5oeckqvi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261571947069:android:826a2164756e9d37fe9854",
+        "android_client_info": {
+          "package_name": "com.roni.class12thagjetnotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261571947069-813n7ttb900fj0f2itjflebh5oeckqvi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7Jj6qPNef95b1uiwSeaYztkn5XfJW1Jw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261571947069-813n7ttb900fj0f2itjflebh5oeckqvi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
