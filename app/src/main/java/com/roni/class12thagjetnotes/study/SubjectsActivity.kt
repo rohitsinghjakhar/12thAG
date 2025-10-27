@@ -56,7 +56,7 @@ class SubjectsActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = SubjectsAdapter(subjects) { subject ->
+        adapter = SubjectsAdapter { subject ->
             openContentActivity(subject)
         }
 

@@ -3,7 +3,6 @@ package com.roni.class12thagjetnotes.firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.roni.class12thagjetnotes.models.firebase.*
-import com.roni.class12thagjetnotes.models.quiz.*
 import kotlinx.coroutines.tasks.await
 
 object FirebaseManager {
@@ -157,110 +156,6 @@ object FirebaseManager {
                 doc.toObject(Syllabus::class.java)
             }
             Result.success(syllabusItems)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    // ========== QUIZ ==========
-    suspend fun getQuizzesBySubject(subject: String? = null): Result<List<Quiz>> {
-        return try {
-            var query = firestore.collection("quizzes") as Query
-
-            if (subject != null) {
-                query = query.whereEqualTo("subject", subject)
-            }
-
-            val snapshot = query.get().await()
-            val quizzes = snapshot.documents.mapNotNull { doc ->
-                doc.toObject(Quiz::class.java)
-            }
-            Result.success(quizzes)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun getChaptersBySubject(subjectId: String): Result<List<Chapter>> {
-        return try {
-            val snapshot = firestore.collection("chapters")
-                .whereEqualTo("subjectId", subjectId)
-                .orderBy("chapterNumber", Query.Direction.ASCENDING)
-                .get()
-                .await()
-
-            val chapters = snapshot.documents.mapNotNull { doc ->
-                doc.toObject(Chapter::class.java)
-            }
-            Result.success(chapters)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun getQuizzesByChapter(chapterId: String): Result<List<Quiz>> {
-        return try {
-            val snapshot = firestore.collection("quizzes")
-                .whereEqualTo("chapterId", chapterId)
-                .get()
-                .await()
-
-            val quizzes = snapshot.documents.mapNotNull { doc ->
-                doc.toObject(Quiz::class.java)
-            }
-            Result.success(quizzes)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun getQuizById(quizId: String): Result<QuizDetail> {
-        return try {
-            val snapshot = firestore.collection("quiz_details")
-                .document(quizId)
-                .get()
-                .await()
-
-            val quizDetail = snapshot.toObject(QuizDetail::class.java)
-            if (quizDetail != null) {
-                Result.success(quizDetail)
-            } else {
-                Result.failure(Exception("Quiz not found"))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun saveQuizResult(result: QuizResult): Result<String> {
-        return try {
-            val docRef = firestore.collection("quiz_results").document()
-            val resultWithId = result.copy(id = docRef.id)
-            docRef.set(resultWithId).await()
-
-            // Increment quiz attempts
-            firestore.collection("quizzes").document(result.quizId)
-                .update("attempts", com.google.firebase.firestore.FieldValue.increment(1))
-                .await()
-
-            Result.success(docRef.id)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun getUserQuizResults(userId: String): Result<List<QuizResult>> {
-        return try {
-            val snapshot = firestore.collection("quiz_results")
-                .whereEqualTo("userId", userId)
-                .orderBy("completedAt", Query.Direction.DESCENDING)
-                .get()
-                .await()
-
-            val results = snapshot.documents.mapNotNull { doc ->
-                doc.toObject(QuizResult::class.java)
-            }
-            Result.success(results)
         } catch (e: Exception) {
             Result.failure(e)
         }

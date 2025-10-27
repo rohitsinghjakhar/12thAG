@@ -20,11 +20,11 @@ import com.roni.class12thagjetnotes.adapter.ReviewAdapter
 import com.roni.class12thagjetnotes.adapter.SocialMediaAdapter
 import com.roni.class12thagjetnotes.auth.ProfileActivity
 import com.roni.class12thagjetnotes.databinding.ActivityMainBinding
-import com.roni.class12thagjetnotes.jet.JetTaiyariActivity
 import com.roni.class12thagjetnotes.models.Banner
 import com.roni.class12thagjetnotes.models.OtherApp
 import com.roni.class12thagjetnotes.models.Review
 import com.roni.class12thagjetnotes.models.SocialMedia
+import com.roni.class12thagjetnotes.students.StudentDeskActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -422,11 +422,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.cardQuiz.setOnClickListener {
-            startActivity(Intent(this, QuizActivity::class.java))
+            startActivity(Intent(this, StudentDeskActivity::class.java))
         }
 
         binding.cardJetTaiyari.setOnClickListener {
-            startActivity(Intent(this, JetTaiyariActivity::class.java))
+            startActivity(Intent(this, StudentDeskActivity::class.java))
         }
 
         binding.cardPrintNotes.setOnClickListener {

@@ -78,6 +78,7 @@ dependencies {
 
     // Image Loading
     implementation(libs.glide.v4160)
+    implementation(libs.androidx.media3.common.ktx)
     kapt(libs.compiler.v4160)
 
     // Shimmer Effect
@@ -98,5 +99,13 @@ dependencies {
 
     implementation(libs.exoplayer)
     implementation(libs.exoplayer.ui)
+
+    // PDF Viewer - AndroidPdfViewer
+    implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")// ExoPlayer for Video Playback
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.common)
+// Lottie for Animations (optional but recommended)
+    implementation(libs.lottie)
 
 }

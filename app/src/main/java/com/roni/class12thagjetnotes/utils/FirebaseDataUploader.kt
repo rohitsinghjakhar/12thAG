@@ -7,9 +7,6 @@ import com.roni.class12thagjetnotes.models.firebase.PdfNote
 import com.roni.class12thagjetnotes.models.firebase.PreviousPaper
 import com.roni.class12thagjetnotes.models.firebase.Syllabus
 import com.roni.class12thagjetnotes.models.firebase.Video
-import com.roni.class12thagjetnotes.models.quiz.Question
-import com.roni.class12thagjetnotes.models.quiz.Quiz
-import com.roni.class12thagjetnotes.models.quiz.QuizDetail
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -177,85 +174,6 @@ object FirebaseDataUploader {
         }
     }
 
-    suspend fun uploadSampleQuizzes() {
-        // Upload quiz metadata
-        val quizzes = listOf(
-            Quiz(
-                id = "quiz1",
-                title = "Mathematics - Full Syllabus Test",
-                subject = "Mathematics",
-                description = "Complete mathematics test for JET preparation covering all chapters",
-                totalQuestions = 100,
-                duration = 180,
-                maxMarks = 400,
-                difficulty = "Hard",
-                attempts = 1250,
-                thumbnailUrl = "",
-                tags = listOf("mathematics", "full-test", "jet")
-            ),
-            Quiz(
-                id = "quiz2",
-                title = "Physics - Quick Test",
-                subject = "Physics",
-                description = "30 minutes quick test on important physics topics",
-                totalQuestions = 30,
-                duration = 30,
-                maxMarks = 120,
-                difficulty = "Medium",
-                attempts = 890,
-                thumbnailUrl = "",
-                tags = listOf("physics", "quick-test")
-            )
-        )
-
-        quizzes.forEach { quiz ->
-            firestore.collection("quizzes").document(quiz.id).set(quiz).await()
-        }
-
-        // Upload quiz details with questions
-        val quiz1Detail = QuizDetail(
-            id = "quiz1",
-            title = "Mathematics - Full Syllabus Test",
-            subject = "Mathematics",
-            duration = 180,
-            maxMarks = 400,
-            questions = listOf(
-                Question(
-                    questionId = "q1",
-                    question = "If A is a 3×3 matrix with |A| = 8, then |3A| equals?",
-                    options = listOf("24", "72", "216", "648"),
-                    correctAnswer = 2,
-                    marks = 4,
-                    negativeMarks = -1,
-                    explanation = "|kA| = k^n|A| where n is order of matrix. Here |3A| = 3^3 × 8 = 216",
-                    imageUrl = ""
-                ),
-                Question(
-                    questionId = "q2",
-                    question = "The derivative of tan⁻¹(x) is?",
-                    options = listOf("1/(1-x²)", "1/(1+x²)", "-1/(1+x²)", "1/(1-x)"),
-                    correctAnswer = 1,
-                    marks = 4,
-                    negativeMarks = -1,
-                    explanation = "d/dx(tan⁻¹x) = 1/(1+x²)",
-                    imageUrl = ""
-                ),
-                Question(
-                    questionId = "q3",
-                    question = "The value of ∫₀^π sin²x dx is?",
-                    options = listOf("π", "π/2", "π/4", "2π"),
-                    correctAnswer = 1,
-                    marks = 4,
-                    negativeMarks = -1,
-                    explanation = "Using formula ∫₀^π sin²x dx = π/2",
-                    imageUrl = ""
-                )
-            )
-        )
-
-        firestore.collection("quiz_details").document("quiz1").set(quiz1Detail).await()
-    }
-
     suspend fun uploadSampleSyllabus() {
         val syllabusItems = listOf(
             Syllabus(
@@ -327,7 +245,6 @@ object FirebaseDataUploader {
             uploadSamplePdfNotes()
             uploadSampleBooks()
             uploadSamplePreviousPapers()
-            uploadSampleQuizzes()
             uploadSampleSyllabus()
         } catch (e: Exception) {
             e.printStackTrace()

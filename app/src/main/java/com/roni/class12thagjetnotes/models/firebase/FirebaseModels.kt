@@ -106,18 +106,6 @@ data class Subject(
     constructor() : this("", "", "", "", "", 0)
 }
 
-// Chapter Model
-data class Chapter(
-    val id: String = "",
-    val subjectId: String = "",
-    val chapterNumber: Int = 0,
-    val name: String = "",
-    val description: String = "",
-    val totalQuizzes: Int = 0,
-    val thumbnailUrl: String = ""
-) {
-    constructor() : this("", "", 0, "", "", 0, "")
-}
 
 data class JetContent(
     val id: String = "",

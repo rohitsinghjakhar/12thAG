@@ -17,6 +17,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Class12thAGJETNotes">
         <activity
+            android:name=".students.quiz.PerformanceActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Class12thAGJETNotes" />
+        <activity
+            android:name=".students.quiz.QuizResultActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Class12thAGJETNotes" />
+        <activity
+            android:name=".students.quiz.QuizTakeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Class12thAGJETNotes" />
+        <activity
+            android:name=".students.quiz.QuizListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Class12thAGJETNotes" />
+        <activity
+            android:name=".students.viewers.VideoPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".students.viewers.PdfViewerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".students.StudentDeskActivity"
+            android:exported="false" />
+        <activity
             android:name=".quiz.QuizListActivity"
             android:exported="false" />
         <activity
