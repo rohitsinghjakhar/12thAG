@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.roni.class12thagjetnotes.R
 import com.roni.class12thagjetnotes.databinding.ItemSubjectBinding
 import com.roni.class12thagjetnotes.students.models.Subject
@@ -40,17 +41,21 @@ class SubjectsAdapter(
         fun bind(subject: Subject) {
             binding.subjectName.text = subject.name
 
-            // Load subject icon
-            Glide.with(binding.root.context)
-                .load(subject.icon)
-                .placeholder(getSubjectIcon(subject.name))
-                .error(getSubjectIcon(subject.name))
+            val context = binding.root.context
+
+            // ✅ Load icon from Firebase URL safely
+            Glide.with(context)
+                .load(subject.icon) // now this is a valid HTTPS URL
+                .placeholder(R.drawable.ic_default_subject)
+                .error(R.drawable.ic_default_subject)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.subjectIcon)
 
-            // Set background color based on subject
-            val backgroundResource = getSubjectBackground(subject.name)
-            binding.subjectBackground.setBackgroundResource(backgroundResource)
+            // ✅ Optional gradient background selection
+            val backgroundRes = getSubjectBackground(subject.name)
+            binding.subjectBackground.setBackgroundResource(backgroundRes)
 
+            // ✅ Click animation + navigation
             binding.root.setOnClickListener {
                 Log.d("SubjectClick", "Clicked subject: ${subject.id}")
                 binding.cardView.animate()
@@ -69,33 +74,15 @@ class SubjectsAdapter(
             }
         }
 
-        private fun getSubjectIcon(subjectName: String): Int {
-            return when (subjectName.lowercase()) {
-                "mathematics", "maths", "math" -> R.drawable.ic_maths
-                "science", "general science" -> R.drawable.ic_maths
-                "english", "english language", "english literature" -> R.drawable.ic_maths
-                "history", "social studies" -> R.drawable.ic_maths
-                "geography" -> R.drawable.ic_maths
-                "physics" -> R.drawable.ic_maths
-                "chemistry" -> R.drawable.ic_maths
-                "biology", "life science" -> R.drawable.ic_maths
-                "computer science", "computers", "it" -> R.drawable.ic_maths
-                "economics" -> R.drawable.ic_maths
-                "hindi", "sanskrit", "language" -> R.drawable.ic_language
-                else -> R.drawable.ic_subject_placeholder
-            }
-        }
-
+        // 🔹 Background gradients for visual variety
         private fun getSubjectBackground(subjectName: String): Int {
             return when (subjectName.lowercase()) {
                 "mathematics", "maths" -> R.drawable.gradient_maths
                 "science" -> R.drawable.gradient_science
                 "english" -> R.drawable.gradient_english
-                "history" -> R.drawable.gradient_history
-                "geography" -> R.drawable.gradient_geography
-                "physics" -> R.drawable.gradient_physics
-                "chemistry" -> R.drawable.gradient_chemistry
-                "biology" -> R.drawable.gradient_biology
+                "computer science", "computers", "it" -> R.drawable.gradient_computer
+                "economics" -> R.drawable.gradient_economics
+                "political science" -> R.drawable.gradient_political_science
                 else -> R.drawable.gradient_default_subject
             }
         }

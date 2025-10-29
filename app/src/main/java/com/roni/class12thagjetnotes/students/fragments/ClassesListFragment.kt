@@ -108,14 +108,15 @@ class ClassesListFragment : Fragment() {
     }
 
     private fun showEmptyState() {
-        binding.emptyStateLayout.visibility = View.VISIBLE
+        binding.emptyStateLayout.root.visibility = View.VISIBLE
         binding.classesRecyclerView.visibility = View.GONE
     }
 
     private fun hideEmptyState() {
-        binding.emptyStateLayout.visibility = View.GONE
+        binding.emptyStateLayout.root.visibility = View.GONE
         binding.classesRecyclerView.visibility = View.VISIBLE
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

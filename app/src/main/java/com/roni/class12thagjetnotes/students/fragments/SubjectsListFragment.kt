@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.roni.class12thagjetnotes.R
-import com.roni.class12thagjetnotes.adapter.study.SubjectsAdapter
 import com.roni.class12thagjetnotes.databinding.FragmentSubjectsListBinding
-import com.roni.class12thagjetnotes.models.firebase.Subject
+import com.roni.class12thagjetnotes.students.adapter.SubjectsAdapter
+import com.roni.class12thagjetnotes.students.models.Subject
 import com.roni.class12thagjetnotes.students.viewmodels.StudentDeskViewModel
 import com.uhadawnbells.uha.fragments.MediumSelectionFragment
 
@@ -20,7 +20,10 @@ class SubjectsListFragment : Fragment() {
 
     private var _binding: FragmentSubjectsListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: StudentDeskViewModel
+
+    // ✅ Use activityViewModels to share ViewModel instance across fragments
+    private val viewModel: StudentDeskViewModel by activityViewModels()
+
     private lateinit var subjectsAdapter: SubjectsAdapter
 
     private var classId: String = ""
@@ -61,16 +64,18 @@ class SubjectsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[StudentDeskViewModel::class.java]
-
         setupToolbar()
         setupRecyclerView()
         observeViewModel()
 
-        if (classId.isNotEmpty()) {
-            viewModel.loadSubjects(classId)
-        } else {
+        if (classId.isEmpty()) {
             showErrorAndGoBack("Invalid class selected")
+            return
+        }
+
+        // ✅ Load only if data not already cached
+        if (viewModel.subjects.value.isNullOrEmpty()) {
+            viewModel.loadSubjects(classId, requireContext())
         }
     }
 
@@ -82,7 +87,7 @@ class SubjectsListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        subjectsAdapter = SubjectsAdapter() { subject ->
+        subjectsAdapter = SubjectsAdapter { subject ->
             navigateToMediumSelection(subject)
         }
 
@@ -100,8 +105,7 @@ class SubjectsListFragment : Fragment() {
                 showEmptyState()
             } else {
                 hideEmptyState()
-                subjectsAdapter = SubjectsAdapter { subject ->
-                }
+                subjectsAdapter.submitList(subjects)
             }
         }
 
@@ -120,7 +124,6 @@ class SubjectsListFragment : Fragment() {
         Log.d(TAG, "Navigating to medium selection for subject: ${subject.name}")
 
         val fragment = MediumSelectionFragment.newInstance(subject.id, subject.name)
-
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(
                 R.anim.slide_in_right,
@@ -139,12 +142,12 @@ class SubjectsListFragment : Fragment() {
     }
 
     private fun showEmptyState() {
-        binding.emptyStateLayout.visibility = View.VISIBLE
+        binding.emptyStateLayout.root.visibility = View.VISIBLE
         binding.subjectsRecyclerView.visibility = View.GONE
     }
 
     private fun hideEmptyState() {
-        binding.emptyStateLayout.visibility = View.GONE
+        binding.emptyStateLayout.root.visibility = View.GONE
         binding.subjectsRecyclerView.visibility = View.VISIBLE
     }
 

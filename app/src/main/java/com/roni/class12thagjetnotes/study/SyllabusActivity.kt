@@ -11,7 +11,7 @@ import com.roni.class12thagjetnotes.adapter.SyllabusAdapter
 import com.roni.class12thagjetnotes.databinding.ActivitySyllabusBinding
 import com.roni.class12thagjetnotes.firebase.FirebaseManager
 import com.roni.class12thagjetnotes.models.firebase.Syllabus
-import com.roni.class12thagjetnotes.viewer.PdfViewerActivity
+import com.roni.class12thagjetnotes.students.viewers.PdfViewerActivity
 import kotlinx.coroutines.launch
 
 class SyllabusActivity : AppCompatActivity() {

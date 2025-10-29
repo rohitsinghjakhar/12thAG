@@ -97,14 +97,12 @@ dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
-    implementation(libs.exoplayer)
-    implementation(libs.exoplayer.ui)
+    implementation("androidx.media3:media3-exoplayer:1.4.1")
+    implementation("androidx.media3:media3-ui:1.4.1")
+    implementation("androidx.media3:media3-session:1.4.1")
 
     // PDF Viewer - AndroidPdfViewer
-    implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")// ExoPlayer for Video Playback
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.ui)
-    implementation(libs.androidx.media3.common)
+    implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")
 // Lottie for Animations (optional but recommended)
     implementation(libs.lottie)
 

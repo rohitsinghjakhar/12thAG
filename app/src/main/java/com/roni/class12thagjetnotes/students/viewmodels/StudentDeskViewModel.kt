@@ -1,10 +1,9 @@
 package com.roni.class12thagjetnotes.students.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.roni.class12thagjetnotes.students.models.*
 import com.roni.class12thagjetnotes.students.repo.FirebaseRepository
 import kotlinx.coroutines.launch
@@ -25,8 +24,8 @@ class StudentDeskViewModel : ViewModel() {
     private val _chapters = MutableLiveData<List<Chapter>>()
     val chapters: LiveData<List<Chapter>> = _chapters
 
-    private val _content = MutableLiveData<List<Content>>()
-    val content: LiveData<List<Content>> = _content
+    // ✅ FIX: Use a Map to cache content by (chapterId + type) to prevent conflicts
+    private val contentCache = mutableMapOf<String, MutableLiveData<List<Content>>>()
 
     private val _quizzes = MutableLiveData<List<Quiz>>()
     val quizzes: LiveData<List<Quiz>> = _quizzes
@@ -45,118 +44,112 @@ class StudentDeskViewModel : ViewModel() {
     }
 
     fun loadClasses() {
+        if (!_classes.value.isNullOrEmpty()) return
         viewModelScope.launch {
-            try {
-                _loading.value = true
-                _error.value = null
-                val classesList = repository.getClasses()
-                _classes.value = classesList
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading classes", e)
-                _error.value = "Failed to load classes: ${e.message}"
-            } finally {
-                _loading.value = false
+            safeLoad {
+                _classes.value = repository.getClasses()
             }
         }
     }
 
-    fun loadSubjects(classId: String) {
+    fun loadSubjects(classId: String, appContext: android.content.Context) {
+        if (!_subjects.value.isNullOrEmpty()) return
         viewModelScope.launch {
-            try {
-                _loading.value = true
-                _error.value = null
+            safeLoad {
                 val subjectsList = repository.getSubjects(classId)
                 _subjects.value = subjectsList
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading subjects", e)
-                _error.value = "Failed to load subjects: ${e.message}"
-            } finally {
-                _loading.value = false
+
+                // ✅ Preload all subject icons into Glide cache
+                subjectsList.forEach { subject ->
+                    Glide.with(appContext)
+                        .load(subject.icon)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .preload()
+                }
             }
         }
     }
 
     fun loadMediums(subjectId: String) {
+        if (!_mediums.value.isNullOrEmpty()) return
         viewModelScope.launch {
-            try {
-                _loading.value = true
-                _error.value = null
-                val mediumsList = repository.getMediums(subjectId)
-                _mediums.value = mediumsList
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading mediums", e)
-                _error.value = "Failed to load mediums: ${e.message}"
-            } finally {
-                _loading.value = false
-            }
+            safeLoad { _mediums.value = repository.getMediums(subjectId) }
         }
     }
 
     fun loadChapters(mediumId: String) {
+        if (!_chapters.value.isNullOrEmpty()) return
         viewModelScope.launch {
-            try {
-                _loading.value = true
-                _error.value = null
-                val chaptersList = repository.getChapters(mediumId)
-                _chapters.value = chaptersList
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading chapters", e)
-                _error.value = "Failed to load chapters: ${e.message}"
-            } finally {
-                _loading.value = false
-            }
+            safeLoad { _chapters.value = repository.getChapters(mediumId) }
         }
     }
 
-    fun loadContent(chapterId: String, type: String) {
+    // ✅ FIX: Return LiveData specific to this chapter and content type
+    fun getContentLiveData(chapterId: String, contentType: String): LiveData<List<Content>> {
+        val cacheKey = "$chapterId:$contentType"
+
+        // Return existing LiveData if already created
+        if (contentCache.containsKey(cacheKey)) {
+            return contentCache[cacheKey]!!
+        }
+
+        // Create new LiveData for this chapter+type combination
+        val liveData = MutableLiveData<List<Content>>()
+        contentCache[cacheKey] = liveData
+
+        // Load content
         viewModelScope.launch {
             try {
-                _loading.value = true
-                _error.value = null
-                val contentList = repository.getContent(chapterId, type)
-                _content.value = contentList
+                _loading.postValue(true)
+                _error.postValue(null)
+                val contentList = repository.getContent(chapterId, contentType)
+                liveData.postValue(contentList)
+                Log.d(TAG, "Loaded ${contentList.size} items for $cacheKey")
             } catch (e: Exception) {
-                Log.e(TAG, "Error loading content", e)
-                _error.value = "Failed to load content: ${e.message}"
+                Log.e(TAG, "Error loading content for $cacheKey", e)
+                _error.postValue("Error: ${e.message}")
+                liveData.postValue(emptyList())
             } finally {
-                _loading.value = false
+                _loading.postValue(false)
             }
         }
+
+        return liveData
     }
 
     fun loadQuizzes(chapterId: String) {
+        if (!_quizzes.value.isNullOrEmpty()) return
         viewModelScope.launch {
-            try {
-                _loading.value = true
-                _error.value = null
-                val quizzesList = repository.getQuizzes(chapterId)
-                _quizzes.value = quizzesList
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading quizzes", e)
-                _error.value = "Failed to load quizzes: ${e.message}"
-            } finally {
-                _loading.value = false
-            }
+            safeLoad { _quizzes.value = repository.getQuizzes(chapterId) }
         }
     }
 
     fun loadQuestions(quizId: String) {
         viewModelScope.launch {
-            try {
-                _loading.value = true
-                _error.value = null
-                val questionsList = repository.getQuestions(quizId)
-                _questions.value = questionsList
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading questions", e)
-                _error.value = "Failed to load questions: ${e.message}"
-            } finally {
-                _loading.value = false
-            }
+            safeLoad { _questions.value = repository.getQuestions(quizId) }
         }
     }
 
     suspend fun saveQuizResult(result: QuizResult): Boolean {
         return repository.saveQuizResult(result)
+    }
+
+    // ✅ Common function for error handling and loading state
+    private suspend fun safeLoad(block: suspend () -> Unit) {
+        try {
+            _loading.postValue(true)
+            _error.postValue(null)
+            block()
+        } catch (e: Exception) {
+            Log.e(TAG, "Data load error", e)
+            _error.postValue("Error: ${e.message}")
+        } finally {
+            _loading.postValue(false)
+        }
+    }
+
+    // ✅ Optional: Clear content cache when needed (e.g., when leaving chapter)
+    fun clearContentCache() {
+        contentCache.clear()
     }
 }

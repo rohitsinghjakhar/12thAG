@@ -289,6 +289,7 @@ class QuizTakeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         showExitConfirmation()
     }
 

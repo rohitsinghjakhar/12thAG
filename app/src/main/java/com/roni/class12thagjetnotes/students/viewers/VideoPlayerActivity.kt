@@ -1,15 +1,18 @@
 package com.roni.class12thagjetnotes.students.viewers
 
-import android.media.browse.MediaBrowser
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.PlaybackException
-import com.google.android.exoplayer2.Player
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import com.google.firebase.storage.FirebaseStorage
 import com.roni.class12thagjetnotes.databinding.ActivityVideoPlayerBinding
-import com.google.android.exoplayer2.MediaItem
+
 class VideoPlayerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVideoPlayerBinding
@@ -30,7 +33,7 @@ class VideoPlayerActivity : AppCompatActivity() {
         setupToolbar()
 
         if (videoUrl.isNotEmpty()) {
-            initializePlayer()
+            handleVideoSource(videoUrl)
         } else {
             Toast.makeText(this, "Invalid video URL", Toast.LENGTH_SHORT).show()
             finish()
@@ -39,17 +42,75 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         binding.toolbar.title = videoTitle
-        binding.toolbar.setNavigationOnClickListener {
-            finish()
+        binding.toolbar.setNavigationOnClickListener { finish() }
+    }
+
+    /**
+     * Determine what kind of URL this is (Firebase Storage, YouTube, or normal HTTP)
+     */
+    private fun handleVideoSource(url: String) {
+        when {
+            url.startsWith("gs://") -> {
+                // Firebase Storage URL
+                loadFirebaseVideo(url)
+            }
+            url.contains("youtube.com") || url.contains("youtu.be") -> {
+                // YouTube URL
+                openYouTubeVideo(url)
+            }
+            url.startsWith("http") || url.startsWith("https") -> {
+                // Normal web video
+                initializePlayer(url)
+            }
+            else -> {
+                Toast.makeText(this, "Unsupported video source", Toast.LENGTH_LONG).show()
+                finish()
+            }
         }
     }
 
-    private fun initializePlayer() {
+    /**
+     * Convert Firebase Storage gs:// link to HTTPS download URL
+     */
+    private fun loadFirebaseVideo(gsUrl: String) {
+        try {
+            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(gsUrl)
+            binding.progressBar.visibility = View.VISIBLE
+
+            storageRef.downloadUrl
+                .addOnSuccessListener { uri ->
+                    val httpsUrl = uri.toString()
+                    initializePlayer(httpsUrl)
+                }
+                .addOnFailureListener { e ->
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Failed to load video: ${e.message}", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
+                }
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Invalid Firebase URL", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * Open YouTube video in external player (YouTube app or browser)
+     */
+    private fun openYouTubeVideo(youtubeUrl: String) {
+        Toast.makeText(this, "Opening YouTube video...", Toast.LENGTH_SHORT).show()
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeUrl))
+        startActivity(intent)
+        finish()
+    }
+
+    /**
+     * Initialize and prepare ExoPlayer for direct HTTP/HTTPS video URLs
+     */
+    private fun initializePlayer(finalUrl: String) {
         player = ExoPlayer.Builder(this).build().also { exoPlayer ->
             binding.playerView.player = exoPlayer
 
-            // Convert YouTube URL if needed
-            val finalUrl = convertYouTubeUrl(videoUrl)
             val mediaItem = MediaItem.fromUri(finalUrl)
             exoPlayer.setMediaItem(mediaItem)
 
@@ -57,22 +118,12 @@ class VideoPlayerActivity : AppCompatActivity() {
             exoPlayer.seekTo(currentPosition)
             exoPlayer.prepare()
 
-            // Add listener for player events
             exoPlayer.addListener(object : Player.Listener {
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     when (playbackState) {
-                        Player.STATE_BUFFERING -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                        }
-                        Player.STATE_READY -> {
-                            binding.progressBar.visibility = View.GONE
-                        }
-                        Player.STATE_ENDED -> {
-                            // Video ended
-                        }
-                        Player.STATE_IDLE -> {
-                            // Player idle
-                        }
+                        Player.STATE_BUFFERING -> binding.progressBar.visibility = View.VISIBLE
+                        Player.STATE_READY -> binding.progressBar.visibility = View.GONE
+                        Player.STATE_ENDED -> Unit
                     }
                 }
 
@@ -80,44 +131,11 @@ class VideoPlayerActivity : AppCompatActivity() {
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(
                         this@VideoPlayerActivity,
-                        "Error playing video: ${error.message}",
+                        "Playback error: ${error.message}",
                         Toast.LENGTH_LONG
                     ).show()
                 }
             })
-        }
-    }
-
-    private fun convertYouTubeUrl(url: String): String {
-        // If it's a YouTube URL, you might want to extract the video ID and use it with YouTube Player API
-        // For now, we'll keep it simple
-        return when {
-            url.contains("youtube.com/watch?v=") -> {
-                // Extract video ID from standard YouTube URL
-                val videoId = url.substringAfter("watch?v=").substringBefore("&")
-                // For ExoPlayer, you would need to use YouTube Extract or similar
-                url // Return original for now
-            }
-            url.contains("youtu.be/") -> {
-                // Extract video ID from short YouTube URL
-                val videoId = url.substringAfter("youtu.be/").substringBefore("?")
-                url // Return original for now
-            }
-            else -> url
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (player == null) {
-            initializePlayer()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (player == null) {
-            initializePlayer()
         }
     }
 
@@ -128,11 +146,6 @@ class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        releasePlayer()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         releasePlayer()
     }
 

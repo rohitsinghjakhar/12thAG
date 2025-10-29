@@ -1,4 +1,4 @@
-package com.roni.class12thagjetnotes.students.activities
+package com.roni.class12thagjetnotes.students.quiz
 
 import android.os.Bundle
 import android.view.View

@@ -14,7 +14,7 @@ import com.roni.class12thagjetnotes.adapter.PdfNotesAdapter
 import com.roni.class12thagjetnotes.databinding.ActivityPdfNotesBinding
 import com.roni.class12thagjetnotes.firebase.FirebaseManager
 import com.roni.class12thagjetnotes.models.firebase.PdfNote
-import com.roni.class12thagjetnotes.viewer.PdfViewerActivity
+import com.roni.class12thagjetnotes.students.viewers.PdfViewerActivity
 import kotlinx.coroutines.launch
 
 class PdfNotesActivity : AppCompatActivity() {

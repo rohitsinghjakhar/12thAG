@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -5,98 +6,142 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="6dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp">
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="6dp"
+    app:cardMaxElevation="10dp"
+    app:strokeColor="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/quizIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_quizzes"
+        <!-- Quiz Icon Container -->
+        <FrameLayout
+            android:id="@+id/iconContainer"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/rounded_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/primary" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/quizIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_quizzes"
+                app:tint="@color/white" />
+        </FrameLayout>
+
+        <!-- Quiz Title -->
         <TextView
             android:id="@+id/quizTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             android:ellipsize="end"
+            android:fontFamily="@font/poppins_bold"
             android:maxLines="2"
             android:textColor="@color/text_primary"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold"
+            android:letterSpacing="0.01"
             tools:text="Chapter 1 Quiz"
             app:layout_constraintEnd_toStartOf="@id/iconArrow"
-            app:layout_constraintStart_toEndOf="@id/quizIcon"
-            app:layout_constraintTop_toTopOf="@id/quizIcon" />
+            app:layout_constraintStart_toEndOf="@id/iconContainer"
+            app:layout_constraintTop_toTopOf="@id/iconContainer" />
 
+        <!-- Quiz Description -->
         <TextView
             android:id="@+id/quizDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="3dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:fontFamily="@font/poppins_medium"
+            android:maxLines="1"
             android:textColor="@color/text_secondary"
-            android:textSize="13sp"
+            android:textSize="12sp"
             tools:text="Test your knowledge"
             app:layout_constraintEnd_toStartOf="@id/iconArrow"
-            app:layout_constraintStart_toEndOf="@id/quizIcon"
+            app:layout_constraintStart_toEndOf="@id/iconContainer"
             app:layout_constraintTop_toBottomOf="@id/quizTitle" />
 
+        <!-- Quiz Metadata -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             app:layout_constraintEnd_toStartOf="@id/iconArrow"
-            app:layout_constraintStart_toEndOf="@id/quizIcon"
+            app:layout_constraintStart_toEndOf="@id/iconContainer"
             app:layout_constraintTop_toBottomOf="@id/quizDescription">
 
-            <TextView
-                android:id="@+id/quizQuestionCount"
+            <!-- Question Count -->
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_quizzes"
-                app:drawableTint="@color/text_secondary"
-                tools:text="20 Questions" />
+                android:background="@drawable/rounded_background_light"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp">
 
-            <TextView
-                android:id="@+id/quizTimeLimit"
+                <TextView
+                    android:id="@+id/quizQuestionCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/primary"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_quizzes"
+                    app:drawableTint="@color/primary"
+                    tools:text="20 Qs" />
+            </FrameLayout>
+
+            <!-- Time Limit -->
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:drawablePadding="4dp"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_timer"
-                app:drawableTint="@color/text_secondary"
-                tools:text="30 minutes" />
+                android:layout_marginStart="10dp"
+                android:background="@drawable/rounded_background_light"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp">
 
+                <TextView
+                    android:id="@+id/quizTimeLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/accent"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_timer"
+                    app:drawableTint="@color/accent"
+                    tools:text="30m" />
+            </FrameLayout>
         </LinearLayout>
 
+        <!-- Arrow Icon -->
         <ImageView
             android:id="@+id/iconArrow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:background="@drawable/rounded_background_light"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_arrow_forward"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/text_secondary" />
+            app:tint="@color/primary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

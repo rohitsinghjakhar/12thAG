@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Soft light background -->
+    <solid android:color="#FFF8F9FA" /> <!-- or @color/surface_light -->
+
+    <!-- Optional border for subtle depth -->
+    <stroke
+        android:width="1dp"
+        android:color="#1F000000" /> <!-- 12% black for light outline -->
+
+    <!-- Rounded corners -->
+    <corners android:radius="12dp" />
+
+
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp" />
+
+</shape>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Solid background for surfaces/cards.
+         Replace the hex with @color/your_color if you prefer resource usage. -->
+    <solid android:color="#FFFFFFFF" />
+
+    <!-- Outer border -->
+    <stroke
+        android:width="1dp"
+        android:color="#1A000000" />
+
+    <!-- Corner radius -->
+    <corners android:radius="12dp" />
+
+    <!-- Optional inner padding (uncomment if you need it)
+    <padding
+        android:left="12dp"
+        android:top="12dp"
+        android:right="12dp"
+        android:bottom="12dp" />
+    -->
+</shape>

@@ -5,140 +5,215 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="6dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardMaxElevation="10dp"
+    app:strokeColor="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@drawable/rounded_surface">
 
-        <ImageView
-            android:id="@+id/statusIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_check_circle"
+        <!-- Status Icon Badge -->
+        <FrameLayout
+            android:id="@+id/statusIconContainer"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/rounded_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/success" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/statusIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_check_circle"
+                app:tint="@color/white" />
+        </FrameLayout>
+
+        <!-- Quiz Title -->
         <TextView
             android:id="@+id/quizTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:ellipsize="end"
+            android:fontFamily="@font/poppins_bold"
             android:maxLines="1"
             android:textColor="@color/text_primary"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:letterSpacing="0.01"
             tools:text="Chapter 1 Quiz"
-            app:layout_constraintEnd_toStartOf="@id/scoreText"
-            app:layout_constraintStart_toEndOf="@id/statusIcon"
-            app:layout_constraintTop_toTopOf="@id/statusIcon" />
+            app:layout_constraintStart_toEndOf="@id/statusIconContainer"
+            app:layout_constraintTop_toTopOf="@id/statusIconContainer"
+            app:layout_constraintEnd_toStartOf="@id/scoreSection" />
 
-        <TextView
-            android:id="@+id/statusText"
+        <!-- Status Badge -->
+        <FrameLayout
+            android:id="@+id/statusBadge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/success"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            tools:text="Passed"
-            app:layout_constraintStart_toEndOf="@id/statusIcon"
-            app:layout_constraintTop_toBottomOf="@id/quizTitle" />
+            android:layout_marginTop="4dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="3dp"
+            app:layout_constraintStart_toEndOf="@id/statusIconContainer"
+            app:layout_constraintTop_toBottomOf="@id/quizTitle">
 
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/success"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                tools:text="Passed" />
+        </FrameLayout>
+
+        <!-- Quiz Date -->
         <TextView
             android:id="@+id/quizDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="2dp"
+            android:fontFamily="@font/poppins_medium"
             android:textColor="@color/text_hint"
             android:textSize="11sp"
             tools:text="Dec 15, 2024"
-            app:layout_constraintStart_toEndOf="@id/statusIcon"
-            app:layout_constraintTop_toBottomOf="@id/statusText" />
+            app:layout_constraintStart_toEndOf="@id/statusIconContainer"
+            app:layout_constraintTop_toBottomOf="@id/statusBadge" />
 
-        <TextView
-            android:id="@+id/scoreText"
+        <!-- Score Section -->
+        <LinearLayout
+            android:id="@+id/scoreSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:text="85%"
+            android:orientation="vertical"
+            android:gravity="end"
+            android:layout_marginEnd="4dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/statusIcon" />
+            app:layout_constraintTop_toTopOf="@id/statusIconContainer"
+            app:layout_constraintBottom_toBottomOf="@id/statusIconContainer">
 
-        <ProgressBar
-            android:id="@+id/scoreProgress"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="60dp"
-            android:layout_height="6dp"
-            android:layout_marginTop="4dp"
-            android:max="100"
-            android:progressTint="@color/primary"
-            tools:progress="85"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scoreText" />
+            <TextView
+                android:id="@+id/scoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/primary"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02"
+                tools:text="85%" />
 
+            <ProgressBar
+                android:id="@+id/scoreProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="72dp"
+                android:layout_height="5dp"
+                android:layout_marginTop="4dp"
+                android:max="100"
+                android:progressTint="@color/primary"
+                android:progressBackgroundTint="@color/divider"
+                android:indeterminate="false"
+                tools:progress="85" />
+        </LinearLayout>
+
+        <!-- Divider -->
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
             android:background="@color/divider"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quizDate" />
+            app:layout_constraintTop_toBottomOf="@id/statusIconContainer" />
 
+        <!-- Questions Info Row -->
         <LinearLayout
+            android:id="@+id/infoRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_quizzes"
-                app:tint="@color/text_secondary" />
-
-            <TextView
-                android:id="@+id/questionsInfo"
+            <!-- Questions Info -->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
                 android:layout_weight="1"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                tools:text="17/20 correct" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_timer"
-                app:tint="@color/text_secondary" />
+                <FrameLayout
+                    android:layout_width="24dp"
+                    android:layout_height="24dp">
 
-            <TextView
-                android:id="@+id/timeTaken"
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_quizzes"
+                        app:tint="@color/text_secondary" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/questionsInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    tools:text="17/20 correct" />
+            </LinearLayout>
+
+            <!-- Time Taken -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"
-                tools:text="15:30" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp">
 
+                <FrameLayout
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="4dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_timer"
+                        app:tint="@color/text_secondary" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/timeTaken"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    tools:text="15:30" />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>

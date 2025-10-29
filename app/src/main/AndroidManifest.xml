@@ -17,6 +17,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Class12thAGJETNotes">
         <activity
+            android:name=".jet.activities.JetSubjectsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jet.activities.JetExamInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jet.activities.JetTipsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jet.activities.JetMindMapsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jet.activities.JetSyllabusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jet.activities.JetQuizzesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jet.activities.JetPyqsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".jet.activities.JetVideosActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Class12thAGJETNotes" />
+        <activity
+            android:name=".jet.activities.JetPdfNotesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Class12thAGJETNotes" />
+        <activity
+            android:name=".jet.JetTaiyariActivity"
+            android:exported="false" />
+        <activity
             android:name=".students.quiz.PerformanceActivity"
             android:exported="false"
             android:theme="@style/Theme.Class12thAGJETNotes" />
@@ -42,15 +74,6 @@
             android:name=".students.StudentDeskActivity"
             android:exported="false" />
         <activity
-            android:name=".quiz.QuizListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".quiz.QuizSubjectsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".quiz.QuizChaptersActivity"
-            android:exported="false" />
-        <activity
             android:name=".study.SubjectsActivity"
             android:exported="false" />
         <activity
@@ -60,22 +83,7 @@
             android:name=".DeveloperProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".viewer.VideoPlayerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".quiz.QuizResultActivity"
-            android:exported="false" />
-        <activity
-            android:name=".quiz.QuizPlayActivity"
-            android:exported="false" />
-        <activity
-            android:name=".viewer.PdfViewerActivity"
-            android:exported="false" />
-        <activity
             android:name=".study.PrintNotesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".study.QuizActivity"
             android:exported="false" />
         <activity
             android:name=".study.VideosActivity"
@@ -88,9 +96,6 @@
             android:exported="false" />
         <activity
             android:name=".study.BooksActivity"
-            android:exported="false" />
-        <activity
-            android:name=".jet.JetTaiyariActivity"
             android:exported="false" />
         <activity
             android:name=".study.PdfNotesActivity"
@@ -117,6 +122,10 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

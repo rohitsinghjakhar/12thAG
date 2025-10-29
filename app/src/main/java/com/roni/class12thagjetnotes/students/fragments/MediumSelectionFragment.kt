@@ -1,5 +1,7 @@
-package com.uhadawnbells.uha.fragments
+// File: app/src/main/java/com/roni/class12thagjetnotes/students/fragments/MediumSelectionFragment.kt
+package com.uhadawnbells.uha.fragments // Keep original package if intended
 
+// ... (imports) ...
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,14 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.roni.class12thagjetnotes.R
-import com.roni.class12thagjetnotes.databinding.FragmentMediumSelectionBinding
+import com.roni.class12thagjetnotes.databinding.FragmentMediumSelectionBinding // Ensure this binding exists
 import com.roni.class12thagjetnotes.students.adapter.MediumAdapter
 import com.roni.class12thagjetnotes.students.fragments.ChaptersListFragment
 import com.roni.class12thagjetnotes.students.models.Medium
 import com.roni.class12thagjetnotes.students.viewmodels.StudentDeskViewModel
 
-class MediumSelectionFragment : Fragment() {
 
+class MediumSelectionFragment : Fragment() {
+    // ... (binding, viewModel, adapter declarations) ...
     private var _binding: FragmentMediumSelectionBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: StudentDeskViewModel
@@ -26,6 +29,7 @@ class MediumSelectionFragment : Fragment() {
     private var subjectId: String = ""
     private var subjectName: String = ""
 
+    // ... (companion object, onCreate) ...
     companion object {
         private const val TAG = "MediumSelectionFragment"
         private const val ARG_SUBJECT_ID = "subject_id"
@@ -105,6 +109,7 @@ class MediumSelectionFragment : Fragment() {
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            // --- Fix: Access visibility via binding ---
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
@@ -142,12 +147,13 @@ class MediumSelectionFragment : Fragment() {
     }
 
     private fun showEmptyState() {
-        binding.emptyStateLayout.visibility = View.VISIBLE
+        binding.emptyStateLayout.root.visibility = View.VISIBLE
         binding.mediumRecyclerView.visibility = View.GONE
+        binding.emptyStateLayout.emptyStateText.text = "No mediums found for this subject."
     }
 
     private fun hideEmptyState() {
-        binding.emptyStateLayout.visibility = View.GONE
+        binding.emptyStateLayout.root.visibility = View.GONE
         binding.mediumRecyclerView.visibility = View.VISIBLE
     }
 

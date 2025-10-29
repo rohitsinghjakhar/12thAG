@@ -46,9 +46,7 @@ class QuizListActivity : AppCompatActivity() {
     private fun setupToolbar() {
         binding.toolbar.title = chapterName
         binding.toolbar.subtitle = "Available Quizzes"
-        binding.toolbar.setNavigationOnClickListener {
-            finish()
-        }
+        binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
     private fun setupRecyclerView() {
@@ -94,13 +92,14 @@ class QuizListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    // ✅ FIXED: Access the included layout's root view
     private fun showEmptyState() {
-        binding.emptyStateLayout.visibility = View.VISIBLE
+        binding.emptyStateLayout.root.visibility = View.VISIBLE
         binding.quizzesRecyclerView.visibility = View.GONE
     }
 
     private fun hideEmptyState() {
-        binding.emptyStateLayout.visibility = View.GONE
+        binding.emptyStateLayout.root.visibility = View.GONE
         binding.quizzesRecyclerView.visibility = View.VISIBLE
     }
 }

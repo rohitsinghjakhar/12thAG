@@ -62,7 +62,7 @@ class ContentAdapter(
             }
 
             // Set content type icon
-            binding.contentTypeIcon.setImageResource(getContentTypeIcon(content.type))
+            //binding.contentTypeIcon.setImageResource(getContentTypeIcon(content.type))
 
             // Handle click
             binding.root.setOnClickListener {
