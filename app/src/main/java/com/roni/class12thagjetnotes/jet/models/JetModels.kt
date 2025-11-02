@@ -2,41 +2,6 @@ package com.roni.class12thagjetnotes.jet.models
 
 import com.google.firebase.firestore.PropertyName
 
-data class JetUpdate(
-    @PropertyName("id")
-    var id: String = "",
-
-    @PropertyName("title")
-    var title: String = "",
-
-    @PropertyName("description")
-    var description: String = "",
-
-    @PropertyName("date")
-    var date: String = "",
-
-    @PropertyName("type")
-    var type: String = "", // "news", "announcement", "exam_date", "result", etc.
-
-    @PropertyName("link")
-    var link: String = "",
-
-    @PropertyName("imageUrl")
-    var imageUrl: String = "",
-
-    @PropertyName("timestamp")
-    var timestamp: Long = 0,
-
-    @PropertyName("isImportant")
-    var isImportant: Boolean = false,
-
-    @PropertyName("priority")
-    var priority: Int = 0 // Higher number = higher priority
-) {
-    // No-argument constructor required for Firestore
-    constructor() : this("", "", "", "", "", "", "", 0, false, 0)
-}
-
 
 // Base Material class
 abstract class JetMaterial {
@@ -68,119 +33,6 @@ abstract class JetMaterial {
     var isPremium: Boolean = false
 }
 
-// PDF Notes Model
-data class JetPdfNote(
-    @PropertyName("pdfUrl")
-    var pdfUrl: String = "",
-
-    @PropertyName("subject")
-    var subject: String = "",
-
-    @PropertyName("topic")
-    var topic: String = "",
-
-    @PropertyName("pages")
-    var pages: Int = 0,
-
-    @PropertyName("fileSize")
-    var fileSize: String = "",
-
-    @PropertyName("language")
-    var language: String = "Hindi/English"
-) : JetMaterial() {
-    constructor() : this("", "", "", 0, "", "Hindi/English")
-}
-
-// Video Model
-data class JetVideo(
-    @PropertyName("videoUrl")
-    var videoUrl: String = "",
-
-    @PropertyName("youtubeId")
-    var youtubeId: String = "",
-
-    @PropertyName("duration")
-    var duration: String = "",
-
-    @PropertyName("subject")
-    var subject: String = "",
-
-    @PropertyName("topic")
-    var topic: String = "",
-
-    @PropertyName("instructor")
-    var instructor: String = "",
-
-    @PropertyName("quality")
-    var quality: String = "HD"
-) : JetMaterial() {
-    constructor() : this("", "", "", "", "", "", "HD")
-}
-
-// PYQ (Previous Year Question) Model
-data class JetPyq(
-    @PropertyName("pdfUrl")
-    var pdfUrl: String = "",
-
-    @PropertyName("year")
-    var year: Int = 0,
-
-    @PropertyName("examType")
-    var examType: String = "", // "Main", "Advanced", "Practice"
-
-    @PropertyName("totalQuestions")
-    var totalQuestions: Int = 0,
-
-    @PropertyName("duration")
-    var duration: String = "",
-
-    @PropertyName("hasAnswerKey")
-    var hasAnswerKey: Boolean = false,
-
-    @PropertyName("hasSolutions")
-    var hasSolutions: Boolean = false,
-
-    @PropertyName("solutionsUrl")
-    var solutionsUrl: String = ""
-) : JetMaterial() {
-    constructor() : this("", 0, "", 0, "", false, false, "")
-}
-
-// Quiz Model
-data class JetQuiz(
-    @PropertyName("quizId")
-    var quizId: String = "",
-
-    @PropertyName("subject")
-    var subject: String = "",
-
-    @PropertyName("topic")
-    var topic: String = "",
-
-    @PropertyName("totalQuestions")
-    var totalQuestions: Int = 0,
-
-    @PropertyName("duration")
-    var duration: Int = 0, // in minutes
-
-    @PropertyName("difficulty")
-    var difficulty: String = "", // "Easy", "Medium", "Hard"
-
-    @PropertyName("totalMarks")
-    var totalMarks: Int = 0,
-
-    @PropertyName("attemptCount")
-    var attemptCount: Int = 0,
-
-    @PropertyName("averageScore")
-    var averageScore: Float = 0f,
-
-    @PropertyName("isLive")
-    var isLive: Boolean = false
-) : JetMaterial() {
-    constructor() : this("", "", "", 0, 0, "", 0, 0, 0f, false)
-}
-
 // Syllabus Topic Model
 data class JetSyllabusTopic(
     @PropertyName("subject")
@@ -205,49 +57,6 @@ data class JetSyllabusTopic(
     var referenceLinks: List<String> = listOf()
 ) : JetMaterial() {
     constructor() : this("", "", 0, listOf(), "", "", listOf())
-}
-
-// Mind Map Model
-data class JetMindMap(
-    @PropertyName("imageUrl")
-    var imageUrl: String = "",
-
-    @PropertyName("pdfUrl")
-    var pdfUrl: String = "",
-
-    @PropertyName("subject")
-    var subject: String = "",
-
-    @PropertyName("topic")
-    var topic: String = "",
-
-    @PropertyName("type")
-    var type: String = "" // "Concept", "Formula", "Process", "Comparison"
-) : JetMaterial() {
-    constructor() : this("", "", "", "", "")
-}
-
-// Tips & Tricks Model
-data class JetTip(
-    @PropertyName("category")
-    var category: String = "", // "Study Tips", "Exam Strategy", "Time Management", etc.
-
-    @PropertyName("content")
-    var content: String = "",
-
-    @PropertyName("author")
-    var author: String = "",
-
-    @PropertyName("likes")
-    var likes: Int = 0,
-
-    @PropertyName("subject")
-    var subject: String = "",
-
-    @PropertyName("isVerified")
-    var isVerified: Boolean = false
-) : JetMaterial() {
-    constructor() : this("", "", "", 0, "", false)
 }
 
 // User Progress Model
@@ -284,3 +93,103 @@ data class JetUserProgress(
 ) {
     constructor() : this("", "", "", "", 0, 0, 0, false, "", 0f)
 }
+
+
+// Model for JetPdfNotesActivity
+data class JetPdfNote(
+    var id: String = "",
+    val title: String = "",
+    val description: String = "",
+    val pdfUrl: String = "",
+    val subject: String = "",
+    val topic: String = "",
+    val isPremium: Boolean = false,
+    val viewCount: Int = 0,
+    val timestamp: Long = 0
+)
+
+// Model for JetVideosActivity
+data class JetVideo(
+    var id: String = "",
+    val title: String = "",
+    val description: String = "",
+    val videoUrl: String = "",
+    val youtubeId: String = "",
+    val subject: String = "",
+    val topic: String = "",
+    val duration: String = "",
+    val isPremium: Boolean = false,
+    val viewCount: Int = 0,
+    val timestamp: Long = 0
+)
+
+// Model for JetPyqsActivity
+data class JetPyq(
+    var id: String = "",
+    val title: String = "",
+    val year: Int = 2024,
+    val pdfUrl: String = "",
+    val solutionsUrl: String = "",
+    val hasSolutions: Boolean = false,
+    val subject: String = "",
+    val isPremium: Boolean = false,
+    val downloadCount: Int = 0,
+    val timestamp: Long = 0
+)
+
+// Model for JetQuizzesActivity
+data class JetQuiz(
+    var id: String = "",
+    val quizId: String = "", // ID to fetch questions from a different collection
+    val title: String = "",
+    val description: String = "",
+    val subject: String = "",
+    val topic: String = "",
+    val totalQuestions: Int = 0,
+    val duration: Int = 0, // in minutes
+    val difficulty: String = "Medium", // Easy, Medium, Hard
+    val totalMarks: Int = 0,
+    val isPremium: Boolean = false,
+    val timestamp: Long = 0
+)
+
+// Model for JetSyllabusActivity
+data class JetSyllabus(
+    var id: String = "",
+    val topicName: String = "",
+    val description: String = "",
+    val subject: String = "",
+    val topicOrder: Int = 0, // For ordering
+    val isPremium: Boolean = false
+)
+
+// Model for JetMindMapsActivity
+data class JetMindMap(
+    var id: String = "",
+    val title: String = "",
+    val imageUrl: String = "",
+    val subject: String = "",
+    val topic: String = "",
+    val isPremium: Boolean = false,
+    val timestamp: Long = 0
+)
+
+// Model for JetTipsActivity
+data class JetTip(
+    var id: String = "",
+    val title: String = "",
+    val description: String = "",
+    val subject: String = "",
+    val category: String = "", // e.g., "Exam Strategy", "Time Management"
+    val isPremium: Boolean = false,
+    val timestamp: Long = 0
+)
+
+// Model for JetTaiyariActivity Updates
+data class JetUpdate(
+    val title: String = "",
+    val description: String = "",
+    val link: String = "",
+    val imageUrl: String = "",
+    val timestamp: Long = 0
+)

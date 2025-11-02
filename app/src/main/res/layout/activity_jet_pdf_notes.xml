@@ -7,7 +7,6 @@
     android:background="@color/background"
     tools:context=".jet.activities.JetPdfNotesActivity">
 
-    <!-- AppBar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -24,28 +23,37 @@
             app:title="PDF Notes"
             app:titleTextColor="@color/white" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Subject-wise PDF Notes"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:alpha="0.9" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- PDF List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pdfRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:paddingTop="8dp"
-                android:paddingBottom="16dp" />
+                android:padding="8dp"
+                tools:listitem="@layout/item_jet_pdf" />
 
-            <!-- Empty State -->
             <LinearLayout
                 android:id="@+id/emptyStateLayout"
                 android:layout_width="match_parent"
@@ -84,7 +92,6 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Loading Progress -->
             <ProgressBar
                 android:id="@+id/progressLoading"
                 style="?android:attr/progressBarStyle"

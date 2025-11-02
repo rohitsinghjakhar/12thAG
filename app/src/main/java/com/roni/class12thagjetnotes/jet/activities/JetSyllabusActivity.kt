@@ -3,20 +3,22 @@ package com.roni.class12thagjetnotes.jet.activities
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.roni.class12thagjetnotes.R
+import com.roni.class12thagjetnotes.jet.adapters.JetSyllabusAdapter
+import com.roni.class12thagjetnotes.jet.models.JetSyllabus
 import kotlinx.android.synthetic.main.activity_jet_syllabus.*
 
 class JetSyllabusActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var syllabusAdapter: JetSyllabusAdapter
-    private val syllabusList = mutableListOf<JetSyllabusTopic>()
+    private val syllabusList = mutableListOf<JetSyllabus>()
 
     private lateinit var currentSubject: String
 
@@ -24,9 +26,7 @@ class JetSyllabusActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jet_syllabus)
 
-        // Get subject from intent
         currentSubject = intent.getStringExtra("SUBJECT") ?: "All"
-
         db = Firebase.firestore
 
         setupToolbar()
@@ -45,8 +45,8 @@ class JetSyllabusActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        syllabusAdapter = JetSyllabusAdapter(syllabusList) { topic ->
-            showTopicDetails(topic)
+        syllabusAdapter = JetSyllabusAdapter(syllabusList) { syllabusTopic ->
+            // Handle topic click if needed, e.g., open details
         }
 
         syllabusRecyclerView.apply {
@@ -63,17 +63,15 @@ class JetSyllabusActivity : AppCompatActivity() {
             .document("syllabus")
             .collection("items")
             .whereEqualTo("subject", currentSubject)
-            .orderBy("unitNumber", Query.Direction.ASCENDING)
+            .orderBy("topicOrder", Query.Direction.ASCENDING) // Assuming you have an order field
             .get()
             .addOnSuccessListener { documents ->
                 syllabusList.clear()
-
                 for (document in documents) {
-                    val topic = document.toObject(JetSyllabusTopic::class.java)
+                    val topic = document.toObject(JetSyllabus::class.java)
                     topic.id = document.id
                     syllabusList.add(topic)
                 }
-
                 syllabusAdapter.notifyDataSetChanged()
                 showLoading(false)
                 updateEmptyState()
@@ -84,26 +82,6 @@ class JetSyllabusActivity : AppCompatActivity() {
                 showLoading(false)
                 updateEmptyState()
             }
-    }
-
-    private fun showTopicDetails(topic: JetSyllabusTopic) {
-        val topicsText = topic.topics.joinToString("\n• ", "• ")
-        val message = """
-            Unit: ${topic.unit}
-            Importance: ${topic.importance}
-            Weightage: ${topic.weightage}
-            
-            Topics:
-            $topicsText
-        """.trimIndent()
-
-        AlertDialog.Builder(this)
-            .setTitle(topic.title)
-            .setMessage(message)
-            .setPositiveButton("OK") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
     }
 
     private fun showLoading(show: Boolean) {
@@ -119,5 +97,10 @@ class JetSyllabusActivity : AppCompatActivity() {
             emptyStateLayout.visibility = View.GONE
             syllabusRecyclerView.visibility = View.VISIBLE
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }

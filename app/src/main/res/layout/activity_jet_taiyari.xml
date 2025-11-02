@@ -25,14 +25,12 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false">
 
-            <!-- Header Background -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_background"
                 app:layout_collapseMode="parallax">
 
-                <!-- Decorative Elements -->
                 <ImageView
                     android:layout_width="120dp"
                     android:layout_height="120dp"
@@ -55,7 +53,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:tint="@color/white" />
 
-                <!-- Title Section -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +61,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <!-- JET Logo/Icon -->
                     <androidx.cardview.widget.CardView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
@@ -84,7 +80,6 @@
                             android:textStyle="bold" />
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Main Title -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -96,7 +91,6 @@
                         android:textSize="32sp"
                         android:textStyle="bold" />
 
-                    <!-- Subtitle -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -108,7 +102,6 @@
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <!-- Exam Info -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -121,7 +114,6 @@
                         android:textColor="@color/white"
                         android:textSize="13sp" />
 
-                    <!-- Success Rate Badge -->
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -147,7 +139,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Toolbar -->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -160,7 +151,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -173,7 +163,6 @@
             android:orientation="vertical"
             android:paddingBottom="24dp">
 
-            <!-- Progress Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/progressCard"
                 android:layout_width="match_parent"
@@ -336,7 +325,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Study Materials Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -363,7 +351,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Grid Layout for Main Features -->
             <GridLayout
                 android:id="@+id/gridFeatures"
                 android:layout_width="match_parent"
@@ -372,7 +359,6 @@
                 android:columnCount="2"
                 android:rowCount="4">
 
-                <!-- PDF Notes Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardPdfNotes"
                     android:layout_width="0dp"
@@ -423,7 +409,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Videos Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardVideos"
                     android:layout_width="0dp"
@@ -474,7 +459,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- PYQs Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardPyqs"
                     android:layout_width="0dp"
@@ -525,7 +509,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Quizzes Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardQuizzes"
                     android:layout_width="0dp"
@@ -576,7 +559,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Syllabus Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardSyllabus"
                     android:layout_width="0dp"
@@ -627,7 +609,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Mind Maps Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardMindMaps"
                     android:layout_width="0dp"
@@ -678,7 +659,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Tips & Tricks Card -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardTips"
                     android:layout_width="0dp"
@@ -731,7 +711,6 @@
 
             </GridLayout>
 
-            <!-- Important Updates Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -758,7 +737,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Updates RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/updatesRecyclerView"
                 android:layout_width="match_parent"
@@ -769,7 +747,6 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp" />
 
-            <!-- Exam Information Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardExamInfo"
                 android:layout_width="match_parent"
@@ -832,7 +809,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Loading Progress Bar -->
             <ProgressBar
                 android:id="@+id/progressLoading"
                 style="?android:attr/progressBarStyle"
@@ -846,7 +822,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Floating Action Button for Quick Actions -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabQuickAccess"
         android:layout_width="wrap_content"

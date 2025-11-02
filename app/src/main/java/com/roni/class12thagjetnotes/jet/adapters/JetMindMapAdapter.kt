@@ -3,54 +3,35 @@ package com.roni.class12thagjetnotes.jet.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.roni.class12thagjetnotes.R
 import com.roni.class12thagjetnotes.jet.models.JetMindMap
+// Import Glide or Picasso
+// import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.item_jet_mind_map.view.* // You need to create item_jet_mind_map.xml
 
 class JetMindMapAdapter(
     private val mindMapList: List<JetMindMap>,
-    private val onMindMapClick: (JetMindMap) -> Unit
+    private val onClick: (JetMindMap) -> Unit
 ) : RecyclerView.Adapter<JetMindMapAdapter.MindMapViewHolder>() {
 
     inner class MindMapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardMindMap: CardView = itemView.cardMindMap
-        val ivMindMap: ImageView = itemView.ivMindMapImage
-        val tvTitle: TextView = itemView.tvMindMapTitle
-        val tvSubject: TextView = itemView.tvMindMapSubject
-        val tvType: TextView = itemView.tvMindMapType
-        val tvViews: TextView = itemView.tvMindMapViews
-        val tvPremiumBadge: TextView = itemView.tvPremiumBadge
+        fun bind(map: JetMindMap) {
+            itemView.tvMindMapTitle.text = map.title
 
-        fun bind(mindMap: JetMindMap) {
-            tvTitle.text = mindMap.title
-            tvSubject.text = mindMap.subject
-            tvType.text = mindMap.type
-            tvViews.text = "${mindMap.viewCount} views"
-
-            tvPremiumBadge.visibility = if (mindMap.isPremium) View.VISIBLE else View.GONE
-
-            if (mindMap.thumbnailUrl.isNotEmpty()) {
-                Glide.with(itemView.context)
-                    .load(mindMap.thumbnailUrl)
-                    .centerCrop()
-                    .placeholder(R.drawable.mind_map_placeholder)
-                    .into(ivMindMap)
-            } else if (mindMap.imageUrl.isNotEmpty()) {
-                Glide.with(itemView.context)
-                    .load(mindMap.imageUrl)
-                    .centerCrop()
-                    .placeholder(R.drawable.mind_map_placeholder)
-                    .into(ivMindMap)
+            if (map.isPremium) {
+                itemView.ivPremiumIcon.visibility = View.VISIBLE
             } else {
-                ivMindMap.setImageResource(R.drawable.mind_map_placeholder)
+                itemView.ivPremiumIcon.visibility = View.GONE
             }
 
-            cardMindMap.setOnClickListener {
-                onMindMapClick(mindMap)
-            }
+            // Load image (using Glide example)
+            // Glide.with(itemView.context)
+            //    .load(map.imageUrl)
+            //    .placeholder(R.drawable.placeholder_image)
+            //    .into(itemView.ivMindMapImage)
+
+            itemView.setOnClickListener { onClick(map) }
         }
     }
 

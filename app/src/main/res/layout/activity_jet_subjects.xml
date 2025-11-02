@@ -7,7 +7,6 @@
     android:background="@color/background"
     tools:context=".jet.activities.JetSubjectsActivity">
 
-    <!-- AppBar with gradient -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -21,7 +20,6 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@android:drawable/ic_menu_revert"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-
             app:titleTextColor="@color/white" />
 
         <LinearLayout
@@ -35,36 +33,43 @@
                 android:id="@+id/tvSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.9"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif"
                 android:text="Select your subject"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:alpha="0.9"
+                android:fontFamily="sans-serif"
+                android:text="Materials are sorted by subject"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- Info Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#E3F2FD"
+                android:layout_margin="16dp"
+                app:cardBackgroundColor="@color/card_1"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="0dp">
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,7 +96,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Subjects Grid -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/subjectsRecyclerView"
                 android:layout_width="match_parent"

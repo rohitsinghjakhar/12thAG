@@ -3,63 +3,29 @@ package com.roni.class12thagjetnotes.jet.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.roni.class12thagjetnotes.R
+import com.roni.class12thagjetnotes.jet.models.JetPdfNote
 import kotlinx.android.synthetic.main.item_jet_pdf.view.*
 
 class JetPdfAdapter(
     private val pdfList: List<JetPdfNote>,
-    private val onPdfClick: (JetPdfNote) -> Unit
+    private val onClick: (JetPdfNote) -> Unit
 ) : RecyclerView.Adapter<JetPdfAdapter.PdfViewHolder>() {
 
     inner class PdfViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardPdf: CardView = itemView.cardPdf
-        val ivThumbnail: ImageView = itemView.ivPdfThumbnail
-        val tvTitle: TextView = itemView.tvPdfTitle
-        val tvSubject: TextView = itemView.tvPdfSubject
-        val tvTopic: TextView = itemView.tvPdfTopic
-        val tvPages: TextView = itemView.tvPdfPages
-        val tvSize: TextView = itemView.tvPdfSize
-        val tvDownloads: TextView = itemView.tvPdfDownloads
-        val tvNewBadge: TextView = itemView.tvNewBadge
-        val tvPremiumBadge: TextView = itemView.tvPremiumBadge
-        val btnDownload: ImageView = itemView.btnDownloadPdf
-
         fun bind(pdf: JetPdfNote) {
-            tvTitle.text = pdf.title
-            tvSubject.text = pdf.subject
-            tvTopic.text = pdf.topic
-            tvPages.text = "${pdf.pages} Pages"
-            tvSize.text = pdf.fileSize
-            tvDownloads.text = "${pdf.downloadCount} downloads"
+            itemView.tvPdfTitle.text = pdf.title
+            itemView.tvPdfDescription.text = pdf.description
+            itemView.tvPdfViews.text = "${pdf.viewCount} views"
 
-            // Show/hide badges
-            tvNewBadge.visibility = if (pdf.isNew) View.VISIBLE else View.GONE
-            tvPremiumBadge.visibility = if (pdf.isPremium) View.VISIBLE else View.GONE
-
-            // Load thumbnail
-            if (pdf.thumbnailUrl.isNotEmpty()) {
-                Glide.with(itemView.context)
-                    .load(pdf.thumbnailUrl)
-                    .centerCrop()
-                    .placeholder(R.drawable.pdf_placeholder)
-                    .into(ivThumbnail)
+            if (pdf.isPremium) {
+                itemView.ivPremiumIcon.visibility = View.VISIBLE
             } else {
-                ivThumbnail.setImageResource(R.drawable.pdf_placeholder)
+                itemView.ivPremiumIcon.visibility = View.GONE
             }
 
-            // Click listeners
-            cardPdf.setOnClickListener {
-                onPdfClick(pdf)
-            }
-
-            btnDownload.setOnClickListener {
-                // Handle download separately if needed
-                onPdfClick(pdf)
-            }
+            itemView.setOnClickListener { onClick(pdf) }
         }
     }
 

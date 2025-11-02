@@ -21,38 +21,23 @@
             app:title="Video Lectures"
             app:titleTextColor="@color/white" />
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
+            android:layout_gravity="center"
             android:paddingBottom="16dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnFilterAll"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="All"
-                    android:textColor="@color/white"
-                    app:cornerRadius="20dp"
-                    app:strokeColor="@color/white" />
-
-            </LinearLayout>
-        </HorizontalScrollView>
+            android:layout_marginTop="8dp"
+            android:text="Subject-wise Video Lectures"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:alpha="0.9" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
@@ -64,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:padding="8dp" />
+                android:padding="8dp"
+                tools:listitem="@layout/item_jet_video" />
 
             <LinearLayout
                 android:id="@+id/emptyStateLayout"

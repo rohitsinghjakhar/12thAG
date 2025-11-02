@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.R
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.roni.class12thagjetnotes.R
 import com.roni.class12thagjetnotes.jet.adapters.JetMindMapAdapter
 import com.roni.class12thagjetnotes.jet.models.JetMindMap
 import kotlinx.android.synthetic.main.activity_jet_mind_maps.*
@@ -28,9 +28,7 @@ class JetMindMapsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jet_mind_maps)
 
-        // Get subject from intent
         currentSubject = intent.getStringExtra("SUBJECT") ?: "All"
-
         db = Firebase.firestore
 
         setupToolbar()
@@ -50,7 +48,7 @@ class JetMindMapsActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         mindMapAdapter = JetMindMapAdapter(mindMapList) { mindMap ->
-            viewMindMap(mindMap)
+            openMindMap(mindMap)
         }
 
         mindMapsRecyclerView.apply {
@@ -71,13 +69,11 @@ class JetMindMapsActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { documents ->
                 mindMapList.clear()
-
                 for (document in documents) {
-                    val mindMap = document.toObject(JetMindMap::class.java)
-                    mindMap.id = document.id
-                    mindMapList.add(mindMap)
+                    val map = document.toObject(JetMindMap::class.java)
+                    map.id = document.id
+                    mindMapList.add(map)
                 }
-
                 mindMapAdapter.notifyDataSetChanged()
                 showLoading(false)
                 updateEmptyState()
@@ -90,40 +86,25 @@ class JetMindMapsActivity : AppCompatActivity() {
             }
     }
 
-    private fun viewMindMap(mindMap: JetMindMap) {
-        if (mindMap.isPremium && !isUserPremium()) {
+    private fun openMindMap(map: JetMindMap) {
+        if (map.isPremium && !isUserPremium()) {
             showPremiumDialog()
             return
         }
 
-        incrementViewCount(mindMap.id)
-
-        // Navigate to image viewer activity
-        if (mindMap.imageUrl.isNotEmpty()) {
-            val intent = Intent(this, JetImageViewerActivity::class.java)
-            intent.putExtra("IMAGE_URL", mindMap.imageUrl)
-            intent.putExtra("TITLE", mindMap.title)
-            intent.putExtra("PDF_URL", mindMap.pdfUrl)
-            startActivity(intent)
+        // Assuming Mind Maps are images, you'd open an image viewer
+        // If they are PDFs, use JetPdfViewerActivity
+        if (map.imageUrl.isNotEmpty()) {
+            // TODO: Open in a dedicated image viewer activity
+            // For example:
+            // val intent = Intent(this, ImageViewerActivity::class.java)
+            // intent.putExtra("IMAGE_URL", map.imageUrl)
+            // intent.putExtra("TITLE", map.title)
+            // startActivity(intent)
+            Toast.makeText(this, "Opening image... (Implement ImageViewer)", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Mind map not available", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun incrementViewCount(mindMapId: String) {
-        db.collection("jet_materials")
-            .document("mind_maps")
-            .collection("items")
-            .document(mindMapId)
-            .get()
-            .addOnSuccessListener { document ->
-                val currentCount = document.getLong("viewCount")?.toInt() ?: 0
-                db.collection("jet_materials")
-                    .document("mind_maps")
-                    .collection("items")
-                    .document(mindMapId)
-                    .update("viewCount", currentCount + 1)
-            }
     }
 
     private fun isUserPremium(): Boolean = false

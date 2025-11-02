@@ -7,7 +7,6 @@
     android:background="@color/background"
     tools:context=".jet.activities.JetPyqsActivity">
 
-    <!-- AppBar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -21,31 +20,40 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@android:drawable/ic_menu_revert"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="PYQs"
+            app:title="Previous Year Questions"
             app:titleTextColor="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Subject-wise PYQs"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:alpha="0.9" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- PDF List -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pdfRecyclerView"
+                android:id="@+id/pyqsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:paddingTop="8dp"
-                android:paddingBottom="16dp" />
+                android:padding="8dp"
+                tools:listitem="@layout/item_jet_pyq" />
 
-            <!-- Empty State -->
             <LinearLayout
                 android:id="@+id/emptyStateLayout"
                 android:layout_width="match_parent"
@@ -60,7 +68,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:alpha="0.3"
-                    android:src="@android:drawable/ic_menu_save"
+                    android:src="@android:drawable/ic_menu_agenda"
                     app:tint="@color/text_secondary" />
 
                 <TextView
@@ -68,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="No PDFs Available"
+                    android:text="No PYQs Available"
                     android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -79,12 +87,11 @@
                     android:layout_marginTop="8dp"
                     android:alpha="0.7"
                     android:gravity="center"
-                    android:text="Check back later for new study materials"
+                    android:text="Check back later for previous year papers"
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Loading Progress -->
             <ProgressBar
                 android:id="@+id/progressLoading"
                 style="?android:attr/progressBarStyle"
